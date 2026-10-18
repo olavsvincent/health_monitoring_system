@@ -1,0 +1,344 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Health Monitoring System dashboard">
+    <title>Health Monitoring System</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+
+    <aside class="sidebar" id="sidebar">
+        <div class="brand">
+            <div class="brand-icon">+</div>
+            <div>
+                <h2>HealthCare</h2>
+                <p>Monitoring System</p>
+            </div>
+        </div>
+
+        <nav class="navigation">
+            <a href="#dashboard" class="nav-link active">
+                <span>▦</span> Dashboard
+            </a>
+            <a href="#patients" class="nav-link">
+                <span>♙</span> Patient Profile
+            </a>
+            <a href="#history" class="nav-link">
+                <span>◷</span> Health History
+            </a>
+            <a href="#alerts" class="nav-link">
+                <span>♧</span> Alerts
+            </a>
+            <a href="#settings" class="nav-link">
+                <span>⚙</span> Settings
+            </a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <div class="connection-indicator">
+                <span class="status-dot"></span>
+                <div>
+                    <strong>Demo Mode</strong>
+                    <p>Simulated sensor data</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content" id="dashboard">
+
+        <header class="topbar">
+            <button class="menu-toggle" id="menuToggle"
+                    aria-label="Toggle navigation"
+                    aria-expanded="false">☰</button>
+
+            <div>
+                <h1>Health Dashboard</h1>
+                <p class="subtitle">Monitor vital signs and health readings.</p>
+            </div>
+
+            <div class="topbar-right">
+                <div class="date-display" id="currentDate">Loading date...</div>
+                <div class="avatar">P</div>
+            </div>
+        </header>
+
+        <section class="welcome-section">
+            <div>
+                <h2>Patient Overview</h2>
+                <p>Review your latest vital signs and monitoring status.</p>
+            </div>
+            <span class="demo-badge">DEMO DATA</span>
+        </section>
+
+        <!-- PATIENT INFORMATION -->
+        <section class="patient-card" id="patients">
+            <div class="patient-avatar">P</div>
+
+            <div class="patient-details">
+                <h3 id="patientName">Patient Name</h3>
+                <p>Patient ID: <span id="patientId">PAT-001</span></p>
+                <p>Caregiver: <span id="caregiverName">Caregiver Name</span></p>
+            </div>
+
+            <button class="secondary-button" id="editPatient">
+                Edit Profile
+            </button>
+        </section>
+
+        <!-- VITAL SIGNS -->
+        <section class="section-heading">
+            <div>
+                <h2>Vital Signs</h2>
+                <p>Latest simulated readings</p>
+            </div>
+            <button class="secondary-button" id="toggleReadings">
+                Pause Readings
+            </button>
+        </section>
+
+        <section class="vitals-grid">
+
+            <article class="vital-card">
+                <div class="vital-top">
+                    <div class="vital-icon heart-icon">♥</div>
+                    <span class="card-label">HEART RATE</span>
+                </div>
+
+                <div class="vital-value">
+                    <span id="heartRate">--</span>
+                    <span class="unit">BPM</span>
+                </div>
+
+                <p class="vital-description">Heart beats per minute</p>
+                <div class="vital-footer">
+                    <span id="heartStatus" class="status-pill">Waiting</span>
+                    <span class="updated-label">Live demo</span>
+                </div>
+            </article>
+
+            <article class="vital-card">
+                <div class="vital-top">
+                    <div class="vital-icon oxygen-icon">O₂</div>
+                    <span class="card-label">BLOOD OXYGEN</span>
+                </div>
+
+                <div class="vital-value">
+                    <span id="spo2">--</span>
+                    <span class="unit">%</span>
+                </div>
+
+                <p class="vital-description">Oxygen saturation (SpO₂)</p>
+                <div class="vital-footer">
+                    <span id="spo2Status" class="status-pill">Waiting</span>
+                    <span class="updated-label">Live demo</span>
+                </div>
+            </article>
+
+            <article class="vital-card">
+                <div class="vital-top">
+                    <div class="vital-icon device-icon">⌁</div>
+                    <span class="card-label">DEVICE STATUS</span>
+                </div>
+
+                <div class="device-value" id="deviceStatus">Demo Active</div>
+                <p class="vital-description">Simulated connection</p>
+
+                <div class="vital-footer">
+                    <span class="status-pill normal" id="connectionStatus">
+                        Demo
+                    </span>
+                    <span class="updated-label" id="lastUpdated">--</span>
+                </div>
+            </article>
+
+        </section>
+
+        <!-- CHARTS -->
+        <section class="section-heading">
+            <div>
+                <h2>Health Trends</h2>
+                <p>Recent readings over time</p>
+            </div>
+        </section>
+
+        <section class="charts-grid">
+            <article class="panel">
+                <div class="panel-heading">
+                    <div>
+                        <h3>Heart Rate</h3>
+                        <p>Beats per minute</p>
+                    </div>
+                    <span class="chart-legend heart-legend">● Heart rate</span>
+                </div>
+                <canvas id="heartChart" aria-label="Heart rate history chart">
+                    Heart rate history chart
+                </canvas>
+            </article>
+
+            <article class="panel">
+                <div class="panel-heading">
+                    <div>
+                        <h3>Blood Oxygen</h3>
+                        <p>Oxygen saturation percentage</p>
+                    </div>
+                    <span class="chart-legend oxygen-legend">● SpO₂</span>
+                </div>
+                <canvas id="spo2Chart" aria-label="Blood oxygen history chart">
+                    Blood oxygen history chart
+                </canvas>
+            </article>
+        </section>
+
+        <!-- ALERTS -->
+        <section class="section-heading" id="alerts">
+            <div>
+                <h2>Recent Alerts</h2>
+                <p>Notifications generated by the demo</p>
+            </div>
+            <button class="secondary-button" id="clearAlerts">
+                Clear Alerts
+            </button>
+        </section>
+
+        <section class="panel">
+            <div class="alerts-list" id="alertList" aria-live="polite">
+                <p class="empty-state">No alerts yet.</p>
+            </div>
+        </section>
+
+        <!-- HEALTH HISTORY -->
+        <section class="section-heading" id="history">
+            <div>
+                <h2>Health History</h2>
+                <p>Previously recorded demo readings</p>
+            </div>
+            <button class="primary-button" id="exportHistory">
+                Export CSV
+            </button>
+        </section>
+
+        <section class="panel table-panel">
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date and Time</th>
+                            <th>Heart Rate</th>
+                            <th>SpO₂</th>
+                            <th>Reading Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="historyTable">
+                        <tr>
+                            <td colspan="4" class="empty-state">
+                                Waiting for readings...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- SETTINGS -->
+        <section class="section-heading" id="settings">
+            <div>
+                <h2>Monitoring Settings</h2>
+                <p>Configure demo alert thresholds</p>
+            </div>
+        </section>
+
+        <section class="panel settings-panel">
+            <div class="setting-row">
+                <div>
+                    <h3>Minimum Heart Rate</h3>
+                    <p>Generate an alert below this value.</p>
+                </div>
+                <label class="setting-input">
+                    <input type="number" id="heartMin" value="60"
+                           min="30" max="150">
+                    <span>BPM</span>
+                </label>
+            </div>
+
+            <div class="setting-row">
+                <div>
+                    <h3>Maximum Heart Rate</h3>
+                    <p>Generate an alert above this value.</p>
+                </div>
+                <label class="setting-input">
+                    <input type="number" id="heartMax" value="100"
+                           min="40" max="220">
+                    <span>BPM</span>
+                </label>
+            </div>
+
+            <div class="setting-row">
+                <div>
+                    <h3>Minimum SpO₂</h3>
+                    <p>Generate an alert below this value.</p>
+                </div>
+                <label class="setting-input">
+                    <input type="number" id="spo2Min" value="95"
+                           min="50" max="100">
+                    <span>%</span>
+                </label>
+            </div>
+
+            <button class="primary-button" id="saveSettings">
+                Save Settings
+            </button>
+            <p id="settingsMessage" class="settings-message"
+               aria-live="polite"></p>
+        </section>
+
+        <!-- EMERGENCY -->
+        <section class="emergency-card">
+            <div>
+                <h2>Emergency Assistance</h2>
+                <p>Use this button to demonstrate an emergency alert.</p>
+            </div>
+            <button class="sos-button" id="sosButton">
+                SOS Emergency
+            </button>
+        </section>
+
+        <footer class="footer">
+            <p>HealthCare Monitoring System · Student Project</p>
+            <p>Demonstration only. Not a medical diagnostic device.</p>
+        </footer>
+
+    </main>
+
+    <div class="modal-overlay" id="profileModal" hidden>
+        <form class="modal" id="profileForm">
+            <h2>Edit Patient Profile</h2>
+
+            <label for="nameInput">Patient Name</label>
+            <input type="text" id="nameInput" value="Patient Name"
+                   required maxlength="80">
+
+            <label for="idInput">Patient ID</label>
+            <input type="text" id="idInput" value="PAT-001"
+                   required maxlength="30">
+
+            <label for="caregiverInput">Caregiver Name</label>
+            <input type="text" id="caregiverInput" value="Caregiver Name"
+                   required maxlength="80">
+
+            <div class="modal-actions">
+                <button type="button" class="secondary-button"
+                        id="cancelProfile">Cancel</button>
+                <button type="submit" class="primary-button">
+                    Save Profile
+                </button>
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>
